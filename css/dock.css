@@ -1,0 +1,87 @@
+.dock {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1;
+  padding: 6px;
+}
+
+.system, .start, .apps {
+  border-radius: var(--dock-border-radius);
+  background-color: var(--dark-semi-transparent);
+  color: white;
+  padding: 2px;
+  overflow: hidden;
+  height: 100%;
+}
+
+.start {
+  width: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  aspect-ratio: 1/1;
+}
+
+.start * {
+  margin: auto;
+}
+
+.apps {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  padding: 2px;
+}
+
+.apps .app-item {
+  width: 32px;
+  aspect-ratio: 1/1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.apps .app-item * {
+  width: inherit;
+}
+
+.system {
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+  width: auto;
+}
+
+.system :first-child {
+  border-radius: var(--dock-border-radius) 0 0 var(--dock-border-radius) !important;
+}
+
+.system :last-child {
+  border-radius: 0 var(--dock-border-radius) var(--dock-border-radius) 0 !important;
+}
+
+.system .system-item {
+  border-left: 2px solid transparent;
+  border-right: 2px solid transparent;
+  padding: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.system .system-item:hover {
+  background-color: var(--dark-semi-transparent);
+  border-left: 2px solid rgba(98, 98, 98, 0.99);
+  border-right: 2px solid rgba(98, 98, 98, 0.99);
+}
+
+/*# sourceMappingURL=dock.css.map */
