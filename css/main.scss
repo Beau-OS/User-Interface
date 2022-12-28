@@ -273,13 +273,12 @@ textarea {
 :root {
   --dark: #000;
   --dark-semi-transparent: rgba(0, 0, 0, 0.5);
-  --dark-hover: #2c2c2c;
+  --dark-hover: #6b6b6b;
 
   --light: #fff;
   --light-semi-transparent: rgba(255, 255, 255, 0.5);
 
-
-  --dock-border-radius: 64px;
+  --dock-border-radius: 8px;
   --backdrop-filter: blur(18px);
 }
 
@@ -293,14 +292,23 @@ textarea {
 }
 
 body {
-  background-image: url(../img/background/2560x1440.png);
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-position: center;
+  height: 100vh;
+  background:
+    conic-gradient(from 180deg at 50% 50%, rgb(13, 13, 162), rgb(53, 255, 15)),
+    url(./img/noise.svg);
   font-family: 'Roboto', sans-serif;
+  animation: 1s fadein;
+  overflow: hidden;
 }
 
+
+
+.h-seperator {
+  height: 100%;
+  width: 2px;
+  margin: 0 10px;
+  background-color: var(--light-semi-transparent);
+}
 
 .window-appear {
   animation: window-appear 0.2s;

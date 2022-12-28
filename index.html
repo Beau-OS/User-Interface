@@ -26,8 +26,9 @@
 </head>
 
 <body>
-
 <!-- Add your site or application content here -->
+
+<!--
 <div class="top-bar">
   <div class="window-title">
     <div class="window-title-controls">
@@ -41,18 +42,58 @@
 
   </div>
 </div>
-<div class="dock" id="dock">
-  <div class="start"><span class="material-symbols-outlined">apps</span></div>
-  <div class="apps" id="apps">
-  </div>
+-->
 
-  <div class="system">
-    <div class="system-item" id="wifi"></div>
-    <div class="system-item" id="battery"></div>
-    <div class="system-item" id="clock"></div>
+
+<div id="dock-code">
+
+  <div class="dock" id="dock">
+    <div class="start">
+      <span class="material-symbols-outlined">apps</span>
+    </div>
+
+    <div class="apps" id="apps">
+    </div>
+
+    <div class="system">
+      <div class="system-item" id="wifi"></div>
+      <div class="system-item" id="battery"></div>
+      <div class="system-item" id="time">
+        <p id="clock"></p>
+        <div class="h-seperator"></div>
+        <p id="date"></p>
+      </div>
+    </div>
+  </div>
+  <div id="modals">
+    <div class="modal" id="wifi-modal"></div>
+    <div class="modal" id="battery-modal"></div>
+    <div class="modal" id="time-modal">
+      <div class="submodal" id="clock-modal">
+
+        <h3 id="clock-time">00:00</h3>
+        <h2 id="clock-full-info">day, date month year</h2>
+
+        <details>
+          <summary>CALENDAR</summary>
+          <div class="calendar" id="calendar"></div>
+          <h2>hiiii</h2>
+        </details>
+
+        <details>
+          <summary>ALARMS</summary>
+          <div class="alarm" id="alarm"></div>
+        </details>
+
+        <details>
+          <summary>TIMERS</summary>
+          <div class="timers" id="stopwatch"></div>
+        </details>
+
+      </div>
+    </div>
   </div>
 </div>
-
 
 <script src="js/vendor/modernizr-3.11.2.min.js"></script>
 <script src="js/plugins.js"></script>
