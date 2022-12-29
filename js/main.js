@@ -10,7 +10,7 @@ let apps = {
     "categories": ["internet", "web"],
     "tags": ["browser", "web", "internet"],
   },
-  "com.adobe.creative-cloud": {
+  /* "com.adobe.creative-cloud": {
     "full-name": "Adobe Creative Cloud",
     "short-name": "Creative Cloud",
     "developer": "Adobe",
@@ -43,6 +43,16 @@ let apps = {
     "categories": ["communication", "chat"],
     "tags": ["chat", "messaging", "voice", "text"],
   },
+  "com.microsoft.edge": {
+    "full-name": "Microsoft Edge",
+    "short-name": "Edge",
+    "developer": "Microsoft",
+    "icon": "com.microsoft.edge.png",
+    "url": "https://www.microsoft.com/en-us/windows/microsoft-edge",
+    "description": "Microsoft Edge is a web browser developed by Microsoft.",
+    "categories": ["internet", "web"],
+    "tags": ["browser", "web", "internet"],
+  } */
   "com.kde.dolphin": {
     "full-name": "Dolphin",
     "short-name": "Dolphin",
@@ -53,17 +63,10 @@ let apps = {
     "categories": ["system", "file-manager"],
     "tags": ["file-manager", "file", "manager", "system"],
   },
-  "com.microsoft.edge": {
-    "full-name": "Microsoft Edge",
-    "short-name": "Edge",
-    "developer": "Microsoft",
-    "icon": "com.microsoft.edge.png",
-    "url": "https://www.microsoft.com/en-us/windows/microsoft-edge",
-    "description": "Microsoft Edge is a web browser developed by Microsoft.",
-    "categories": ["internet", "web"],
-    "tags": ["browser", "web", "internet"],
-  }
+
 }
+let alarms = {};
+let timers = {};
 
 const screenWidth = window.innerWidth;
 // =====================================================================================================================
@@ -209,9 +212,65 @@ document.addEventListener("click", function (e) {
 
 function listWindows() {
   for (let i = 0; i < windows.length; i++) {
-    // console.log(windows[i]);
+    console.log(windows[i]);
   }
 }
+
+// =====================================================================================================================
+// DOCK
+// =====================================================================================================================
+
+  // > =================================================================================================================
+  // > MODAL
+  // > =================================================================================================================
+
+function hideModal(id) {
+  let modal = document.getElementById(id + "-modal");
+  modal.style.bottom = "-100vh";
+  modal.style.opacity = "0";
+  modal.classList.remove("modal-open");
+
+}
+
+function showModal(id) {
+  let modal = document.getElementById(id + "-modal");
+
+  // check if the modal is already open
+  if (modal.classList.contains("modal-open")) {
+    return hideModal(id);
+  }
+
+  modal.classList.add("modal-open");
+  modal.style.bottom = "42px";
+  modal.style.opacity = "1";
+  modal.style.left = event.clientX - modal.offsetWidth / 2 + "px";
+}
+
+
+
+// Add event listeners to elements with class system-item
+let systemItems = document.getElementsByClassName("system-item");
+for (let i = 0; i < systemItems.length; i++) {
+  systemItems[i].addEventListener("click", function () {
+    showModal(systemItems[i].id);
+  });
+}
+
+// if the user clicks outside of the modal, close it
+document.addEventListener("click", function (e) {
+
+  // if the item doesnt have an element with ID modals
+  if (!e.target.closest("#modals")) {
+    let modals = document.getElementsByClassName("modal");
+    for (let i = 0; i < modals.length; i++) {
+      if (modals[i].classList.contains("modal-open")) {
+        console.log(modals[i].id)
+        hideModal(modals[i].id);
+      }
+    }
+  }
+})
+
 
 
 // =====================================================================================================================
@@ -247,27 +306,51 @@ function updateSystemInfo() {
     "wifi": document.getElementById("wifi"),
     "battery": document.getElementById("battery"),
     "time": document.getElementById("clock"),
+    "date": document.getElementById("date"),
+    "full-date-time": document.getElementById("clock-full-info"),
+    "full-time": document.getElementById("clock-time")
   }
+
+  // ===================================================================================================================
+  // TIME & DATE
+  // ===================================================================================================================
 
   // Get local time
   let time = new Date();
-  let hours = time.getHours();
-  let minutes = time.getMinutes();
-
-  // Add leading zero to minutes & hours
-  if (minutes < 10) {
-    minutes = "0" + minutes;
+  let times = {
+    "hours": time.getHours(),
+    "minutes": time.getMinutes(),
+    "seconds": time.getSeconds(),
+    "day": time.getDate(),
+    "full-day": time.getDay(),
+    "month": time.getMonth() + 1,
+    "month-name": time.toLocaleString('default', { month: 'long' }),
+    "year": time.getFullYear()
   }
-  if (hours < 10) {
-    hours = "0" + hours;
+
+  const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+  // Format time
+  for (let time in times) {
+    if (times[time] < 10 && time !== "full-day") {
+      times[time] = "0" + times[time];
+    }
   }
 
-  // Update time
-  elements.time.innerHTML = hours + ":" + minutes;
+  // Update time & date
+  elements["time"].innerHTML = `${times["hours"]}:${times["minutes"]}`;
+  elements["date"].innerHTML = `${times["month-name"]} ${times["full-day"]}`;
+  elements["full-date-time"].innerHTML = `
+    ${days[times["full-day"]]},
+    ${times["day"]} ${times["month-name"]} ${times["year"]}
+  `;
+  elements["full-time"].innerHTML = `
+    ${times["hours"]}:${times["minutes"]}:${times["seconds"]}
+  `;
 
-  // ====================
+  // ===================================================================================================================
   // Update battery
-  // ====================
+  // ===================================================================================================================
 
   // Get battery info
   let battery = navigator.getBattery();
@@ -278,15 +361,13 @@ function updateSystemInfo() {
     elements.battery.innerHTML = batteryPercentage + "%";
   });
 
-  // ====================
-  // Update wifi
-  // ====================
+  // ===================================================================================================================
+  // Update internet connectivity
+  // ===================================================================================================================
 
   // Get wifi info
   let wifi = navigator.connection;
   let effectiveType = wifi.effectiveType;
-
-  // Set text
   elements.wifi.innerHTML = effectiveType.toUpperCase();
 
 }
